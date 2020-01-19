@@ -1,0 +1,16 @@
+{
+	
+	
+	"open_threshold_seconds": 15,
+
+	
+	"aws_access_key_id": "AKIAQOXLW5UOJNQEMO7S",
+	"aws_secret_access_key": "uxdpIXPNgdmzt+vUvh03Amni7Fh/612uGZNa+3AX",
+	"s3_bucket": "raspbpi-seccam",
+
+	// variables to store your twilio account credentials
+	"twilio_sid": "AC59e38cb399bd491c5f96909810d913df",
+	"twilio_auth": "19ee2fd64aeaca322cf5d2574b3f4855",
+	"twilio_to": "+48-668-077-850",
+	"twilio_from": "+17-606-153-279"
+}

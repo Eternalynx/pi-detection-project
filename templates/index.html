@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <style>
+	IMG.displayed {
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	body {background-color: lightblue;}
+	
+    </style>
+    <title>Drowsiness Detecion</title>
+  </head>
+  <body>
+    <h1 align="center" >Drowsiness Detecion</h1>
+    <img class="displayed" width="800" height="800" src="{{ url_for('video_feed') }}">
+  </body>
+</html>

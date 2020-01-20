@@ -13,7 +13,9 @@ import signal
 import time
 import cv2
 import sys
+import faulthandler
 from contextlib import redirect_stdout
+
 
 def signal_handler(sig, frame):
     with writer:
@@ -21,6 +23,9 @@ def signal_handler(sig, frame):
             writer.release()
     sys.exit(0)
 
+
+faulthandler.enable(file = sys.stderr, all_threads = True)
+faulthandler.dump_traceback(file = sys.stderr, all_threads = True)
 ap = argparse.ArgumentParser()
 ap.add_argument("-c", "--conf", default="config/config.json",
     help="Path to the configuration json file")
@@ -127,7 +132,7 @@ while True:
             
                 writer = None
 
-                #tn.send(msg, tempVideo)
+                tn.send(msg, tempVideo)
                 print("send " + msg)
                 sentNotify = False
 
@@ -149,7 +154,7 @@ while True:
         writer.release()
         writer = None
 
-#        tn.send(msg, tempVideo)
+        tn.send(msg, tempVideo)
         print("send " + msg)
             
     if writer is not None:

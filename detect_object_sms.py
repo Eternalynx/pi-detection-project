@@ -1,7 +1,6 @@
 from __future__ import print_function
 from additionals.notifications import TwilioNotifier
 from additionals.utils import Conf
-from additionals.motion_detection import SingleMotionDetector
 from imutils.video import VideoStream
 from imutils.io import TempFile
 from datetime import datetime
@@ -36,7 +35,7 @@ args = vars(ap.parse_args())
 conf = Conf(args["conf"])
 tn = TwilioNotifier(conf)
 obj = args["object"]
-motionDetected = False
+objectDetected = False
 sentNotify = False
 
 def classify_frame(net, inputQueue, outputQueue):
@@ -102,7 +101,7 @@ detectFlag = False
 while True:
     
     frame = vs.read()
-    objectDetectedPrev = motionDetected
+    objectDetectedPrev = objectDetected
     
     frame = imutils.resize(frame, width=400)
 
@@ -162,6 +161,7 @@ while True:
         writer.release()
         writer = None
         tempVideo.cleanup()
+        tempVideo = None
       
 
     if not objectDetected  and objectDetectedPrev and not sentNotify:
@@ -181,7 +181,7 @@ while True:
             writer = cv2.VideoWriter(tempVideo.path, fourcc, 20.0, (W, H), True)
     
 
-    if (datetime.now() - detectTimer).seconds > 10 and sentNotify:
+    if (datetime.now() - detectTimer).seconds > 5 and sentNotify:
         
         sentNotify = False
 
@@ -191,11 +191,11 @@ while True:
         totalSec = (endTime - startTime).seconds
         dateDetected = date.today().strftime("%A, %B %d %Y")
 
-        msg = "Motion was detected on {} at {} for {} " \
+        msg = "Object not detected on {} at {} for {} " \
                 "seconds.".format(dateDetected,
                 startTime.strftime("%I:%M%p"), totalSec)
         
-        print("send " + msg)
+       
         writer.release()
         writer = None
         
@@ -206,6 +206,7 @@ while True:
     if writer is not None:
        
         writer.write(frame)
+    
     
     cv2.imshow('Frame', frame)
     key = cv2.waitKey(1) & 0xFF
